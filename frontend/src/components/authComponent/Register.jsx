@@ -4,7 +4,7 @@ const Register = ({setToggle}) => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 flex-col">
       <div className="w-full max-w-sm p-6 bg-white border border-gray-300 rounded-md shadow-sm">
-        {/* Instagram Logo */}
+        
         <h1 className="text-4xl font-cursive text-center mb-4">Instagram</h1>
 
         <p className="text-center text-gray-600 mb-4">

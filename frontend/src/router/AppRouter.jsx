@@ -1,12 +1,33 @@
 import React from 'react'
 import {createBrowserRouter, RouterProvider} from "react-router"
 import AuthLayout from '../layout/AuthLayout'
+import HomeLayout from '../layout/HomeLayout'
+import HomePage from '../pages/HomePage'
+import ExplorePage from '../pages/ExplorePage'
+import MessagesPage from '../pages/MessagesPage'
 
 const AppRouter = () => {
   const router = createBrowserRouter([
     {
         path: "/",
         element: <AuthLayout/>
+    },
+    {
+      path: "/home",
+      element : <HomeLayout/>,
+      children: [{
+        index: true,
+        element : <HomePage/>
+      },
+      {
+        path: "explore",
+        element : <ExplorePage/>
+      },
+      {
+        path:"messages",
+        element : <MessagesPage/>
+      }
+    ]
     }
   ])
 
