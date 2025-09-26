@@ -1,86 +1,63 @@
-import React from 'react';
+import React from "react";
 
-const Login = ({setToggle}) => {
+const Login = ({ setToggle }) => {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to your account
-        </h2>
-      </div>
-
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-6 shadow rounded-lg sm:px-10">
-          <form className="space-y-6" action="#" method="POST">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember_me"
-                  name="remember_me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">
-                  Remember me
-                </label>
-              </div>
-
-              <div className="text-sm">
-                <p href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Forgot your password?
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Sign in
-              </button>
-            </div>
-          </form>
-          <div className="mt-6 text-center text-sm text-gray-600">
-            Don't have an account?{' '}
-            <p onClick={()=> setToggle((prev)=>!prev)}
-             className="font-medium text-indigo-600 hover:text-indigo-500 pointer-cursor">
-              Sign up
-            </p>
-          </div>
+    <div className="min-h-screen bg-white flex flex-col justify-center items-center py-8">
+      <div className="border border-gray-200 px-10 py-8 rounded-md w-full max-w-xs">
+        <div className="flex justify-center mb-6">
+          <span className="text-5xl font-semibold font-logo select-none" style={{ fontFamily: "'Grand Hotel', cursive" }}>
+            Instagram
+          </span>
         </div>
+        <form className="space-y-3">
+          <input
+            type="text"
+            placeholder="Phone number, username or email address"
+            className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-gray-100 focus:outline-none"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-gray-100 focus:outline-none"
+          />
+          <button
+            type="submit"
+            className="bg-indigo-400 hover:bg-indigo-500 w-full text-white font-semibold rounded py-2 mt-1 mb-1"
+            style={{ backgroundColor: "#6598FB" }}
+          >
+            Log in
+          </button>
+          <div className="flex items-center my-3">
+            <div className="flex-grow h-px bg-gray-200"></div>
+            <span className="mx-4 text-xs text-gray-400">OR</span>
+            <div className="flex-grow h-px bg-gray-200"></div>
+          </div>
+          <button 
+            type="button" 
+            className="w-full flex items-center justify-center gap-2 text-blue-600 font-medium text-sm"
+          >
+            <svg width="20" height="20" fill="currentColor" className="mr-2" viewBox="0 0 20 20">
+              <path d="M18 2h-3a4 4 0 0 0-4 4v3H6v4h5v7h4v-7h3l1-4h-4V6a1 1 0 0 1 1-1h3V2z"/>
+            </svg>
+            Log in with Facebook
+          </button>
+        </form>
+        <div className="mt-4 text-center">
+          <a href="#" className="text-sm font-medium text-black">
+            Forgotten your password?
+          </a>
+        </div>
+      </div>
+      <div className="border border-gray-200 rounded-md w-full max-w-xs mt-4 py-4 bg-white text-center">
+        <span className="text-sm text-black">
+          Don't have an account?{" "}
+        </span>
+        <button
+          onClick={() => setToggle && setToggle((prev) => !prev)}
+          className="text-sm font-medium text-indigo-600 hover:underline"
+        >
+          Sign up
+        </button>
       </div>
     </div>
   );
