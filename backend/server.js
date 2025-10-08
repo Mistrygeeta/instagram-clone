@@ -1,25 +1,22 @@
-const express = require("express");
+require("dotenv").config();
+const app = require("./src/app")
 const socketIo = require("socket.io");
 
-const app = express();
 
 const http = require("http");
-const path = require("path");
-const server = http.createServer(app);
-
+const cacheClient= require("./src/services/cache.services");
+const { error } = require("console");
+const server = http.createServer(app)
 const io = socketIo(server);
 
-app.set("view engine", "ejs");
+cacheClient.on("connect",()=>{
+  console.log("Redis connected successfully")
+})
 
-app.set("views", path.join(__dirname, "views"));
+cacheClient.on("error",(error)=>{
+  console.log("error in connecting redis-->",error)
+})
 
-let data = ["rahul", "piyush", "sagar"];
-
-app.get("/", (req, res) => {
-  res.render("index.ejs", { greet: data });
-});
-
-const users = {};
 
 io.on("connection", (socket) => {
   console.log("User connected", socket.id);
