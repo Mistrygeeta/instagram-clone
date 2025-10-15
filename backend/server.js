@@ -2,6 +2,7 @@ require("dotenv").config();
 const app = require("./src/app")
 const connectDB = require("./src/config/db/db")
 const socketIo = require("socket.io");
+const cookieParser = require("cookie-parser")
 const http = require("http");
 const cacheClient= require("./src/services/cache.services");
 

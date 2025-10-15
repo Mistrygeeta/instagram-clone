@@ -1,9 +1,11 @@
 const userModel = require("../models/user.model");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt")
 
 const registerController = async(req , res)=>{
     try {
         let {fullname , username, email , mobile, password} = req.body;
+
         if(!fullname || !username || !email || !mobile || !password ){
             return res.status(422).json({
                 message : "All field are required",
@@ -42,6 +44,7 @@ const registerController = async(req , res)=>{
             user : newUser
         })
     } catch (error) {
+        console.error("error in register", error)
         return res.status(500).json({
             message :" Internal server error",
             error: error
@@ -49,6 +52,39 @@ const registerController = async(req , res)=>{
     }
 }
 
+const loginController = async(req,res)=>{
+    try {
+        let {email, mobile,username, password} = req.body;
 
+    let user = await userModel.findOne({
+        $or:[{username},{email},{mobile}]
+    })
+    if(!user){
+        return res.status(404).json({
+            message : "user not found"
+        })
+    }
+    let bcryptPassword = await bcrypt.compare(password, user.password);
+    if(!bcryptPassword){
+        return res.status(401).json({
+            message : "Invalid credential"
+        })
+    }
 
-module.exports ={registerController}
+    let token = jwt.sign({id: user._id},process.env.JWT_SECRET,{
+        expiresIn : "1h"
+    })
+
+    res.cookie("token", token);
+
+    res.status(200).json({
+        message : "user loggedIn successfully"
+    })
+    } catch (error) {
+        return res.status(500).json({
+            message: "Internal server error"
+        })
+    }
+};
+
+module.exports ={registerController,loginController}
