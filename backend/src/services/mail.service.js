@@ -15,8 +15,8 @@ const transporter = nodemailer.createTransport({
     from: '"Maddison Foo Koch" <maddison53@ethereal.email>',
     to: "bar@example.com, baz@example.com",
     subject: "Hello ✔",
-    text: "Hello world?", // plain‑text body
-    html: "<b>Hello world?</b>", // HTML body
+    text: "Hello world?", 
+    html: "<b>Hello world?</b>",
   });
 
   console.log("Message sent:", info.messageId);

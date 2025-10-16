@@ -35,9 +35,8 @@ const registerController = async(req , res)=>{
                 message : "error in registration"
             })
         }
-        let token = jwt.sign({id: newUser._id},process.env.JWT_SECRET,{
-            expiresIn :"1h",
-        })
+        let token = newUser.JWTTokenGeneration();
+
         res.cookie("token",token)
 
         res.status(201).json({
@@ -65,16 +64,14 @@ const loginController = async(req,res)=>{
             message : "user not found"
         })
     }
-    let decryptPassword = await bcrypt.compare(password, user.password);
+    let decryptPassword = await user.comparePassword(password);
     if(!decryptPassword){
         return res.status(401).json({
             message : "Invalid credential"
         })
     }
 
-    let token = jwt.sign({id: user._id},process.env.JWT_SECRET,{
-        expiresIn : "1h"
-    })
+    let token = user.JWTTokenGeneration();
 
     res.cookie("token", token);
 
@@ -82,6 +79,7 @@ const loginController = async(req,res)=>{
         message : "user loggedIn successfully"
     })
     } catch (error) {
+        console.log("error in login", error)
         return res.status(500).json({
             message: "Internal server error"
         })
@@ -90,9 +88,10 @@ const loginController = async(req,res)=>{
 
 const logoutController = async (req, res) => {
   try {
-    let token = res.cookies.token;
+    let token = req.cookies?.token;
 
     if (!token) {
+        console.log("token error", error)
       return res.status(404).json({
         message: "Token not found, Unauthorize user",
       });
@@ -100,17 +99,40 @@ const logoutController = async (req, res) => {
 
     await cacheClient.set(token, "blacklisted");
 
-    res.clearCookies("token");
+    res.clearCookie("token");
 
     return res.status(200).json({
       message: "user logged out",
     });
   } catch (error) {
+    console.log("error in logout", error)
     return res.status(500).json({
       message: "Internal server error",
       error: error,
     });
   }
 };
+
+const forgotpasswordController = async(req, res)=>{
+    try {
+        let {email, password}= req.body;
+
+        let user = await userModel.findOne({
+            $or: [{email},{mobile}]
+        });
+
+        if(!user){
+            return res.status(404).json({
+                message: "user not found"
+            })
+        };
+
+    } catch (error) {
+        return res.status(500).json({
+            message : "Internal server error",
+            error: error
+        })
+    }
+}
 
 module.exports ={registerController,loginController,logoutController}
