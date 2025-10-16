@@ -1,6 +1,7 @@
 const userModel = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt")
+const cacheClient = require("../services/cache.services")
 
 const registerController = async(req , res)=>{
     try {
@@ -64,8 +65,8 @@ const loginController = async(req,res)=>{
             message : "user not found"
         })
     }
-    let bcryptPassword = await bcrypt.compare(password, user.password);
-    if(!bcryptPassword){
+    let decryptPassword = await bcrypt.compare(password, user.password);
+    if(!decryptPassword){
         return res.status(401).json({
             message : "Invalid credential"
         })
@@ -87,4 +88,29 @@ const loginController = async(req,res)=>{
     }
 };
 
-module.exports ={registerController,loginController}
+const logoutController = async (req, res) => {
+  try {
+    let token = res.cookies.token;
+
+    if (!token) {
+      return res.status(404).json({
+        message: "Token not found, Unauthorize user",
+      });
+    }
+
+    await cacheClient.set(token, "blacklisted");
+
+    res.clearCookies("token");
+
+    return res.status(200).json({
+      message: "user logged out",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error,
+    });
+  }
+};
+
+module.exports ={registerController,loginController,logoutController}

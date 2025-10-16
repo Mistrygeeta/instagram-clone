@@ -7,6 +7,7 @@ const http = require("http");
 const cacheClient= require("./src/services/cache.services");
 
 const server = http.createServer(app)
+app.use(cookieParser())
 const io = socketIo(server);
 
 cacheClient.on("connect",()=>{
